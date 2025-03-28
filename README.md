@@ -5,9 +5,13 @@ A simple and efficient visitor management system that allows people to check in 
 🚀 Features
 
 ✅ Check-in & Check-out – Track visitor entries and exits
+
 ✅ Visitor Logs – Maintain a record of all visitors
+
 ✅ Real-time Status – See who is currently checked in
+
 ✅ Secure & User-Friendly – Simple interface with role-based access
+
 ✅ Responsive Design – Works on desktop and mobile
 
 🛠 Tech Stack
