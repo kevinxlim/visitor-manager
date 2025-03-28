@@ -1,7 +1,7 @@
 Visitor Manager 🏢📋
 
 A simple and efficient visitor management system that allows people to check in and check out seamlessly.
-
+<br><br><br>
 🚀 Features
 
 ✅ Check-in & Check-out – Track visitor entries and exits
@@ -13,11 +13,7 @@ A simple and efficient visitor management system that allows people to check in 
 ✅ Secure & User-Friendly – Simple interface with role-based access
 
 ✅ Responsive Design – Works on desktop and mobile
-
-
-
-
-
+<br><br><br>
 🛠 Tech Stack
 
 Frontend: HTML, CSS, JavaScript
@@ -25,8 +21,7 @@ Frontend: HTML, CSS, JavaScript
 Backend: Node.js
 
 Database: MongoDB
-
-
+<br><br><br>
 📌 Installation
 
 1️⃣ Clone the repository
@@ -47,7 +42,7 @@ npm install
 ```bash
 npm start
 ```
-
+<br><br><br>
 🎯 Usage
 
 Open the web app
@@ -58,7 +53,7 @@ The system logs the time and keeps track
 
 Visitors check out when leaving
 
-
+<br><br><br>
 🔒 License
 
 This project is licensed under the MIT License.
