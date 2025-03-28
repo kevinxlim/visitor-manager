@@ -15,6 +15,9 @@ A simple and efficient visitor management system that allows people to check in 
 ✅ Responsive Design – Works on desktop and mobile
 
 
+
+
+
 🛠 Tech Stack
 
 Frontend: HTML, CSS, JavaScript
