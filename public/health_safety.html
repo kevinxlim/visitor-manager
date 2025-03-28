@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="https://atwc.org.nz/wp-content/uploads/2021/04/favicon-100x100.png">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Health & Safety</title>
+  <style>
+    #pdfViewer {
+      width: 100%;
+      height: 600px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin: 20px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Health & Safety Information</h1>
+    <p>Please review the document below and accept to proceed.</p>
+    <iframe id="pdfViewer" src="pdfjs/web/viewer.html?file=/health_safety.pdf#page=1"></iframe>
+    <form id="acceptForm" action="/accept-safety" method="POST">
+      <input type="hidden" name="name" id="name">
+      <input type="hidden" name="company" id="company">
+      <input type="hidden" name="purpose" id="purpose">
+      <input type="hidden" name="staff_member" id="staff_member">
+      <input type="hidden" name="visitor_id" id="visitor_id">
+      <button type="submit"><i class="fas fa-check"></i> Accept</button>
+    </form>
+    <button class="back-btn" onclick="location.href='/signin'"><i class="fas fa-arrow-left"></i> Back</button>
+  </div>
+  <script>
+	  const urlParams = new URLSearchParams(window.location.search);
+	  document.getElementById('name').value = urlParams.get('name') || '';
+	  document.getElementById('company').value = urlParams.get('company') || '';
+	  document.getElementById('purpose').value = urlParams.get('purpose') || '';
+	  document.getElementById('staff_member').value = urlParams.get('staff_member') || '';
+	  document.getElementById('visitor_id').value = urlParams.get('visitor_id') || '';
+	  document.getElementById('acceptForm').innerHTML += `<input type="hidden" name="site" value="${urlParams.get('site') || 'Main Reception'}">`;
+
+	  function goBackToSignIn() {
+		const site = urlParams.get('site') || 'Main Reception';
+		window.location.href = `/signin?site=${encodeURIComponent(site)}`;
+	  }
+	  document.querySelector('.back-btn').onclick = goBackToSignIn;
+	</script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="https://atwc.org.nz/wp-content/uploads/2021/04/favicon-100x100.png">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Visitor Logs</title>
+  <style>
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: #fff;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background: #008080;
+      color: white;
+      cursor: pointer;
+    }
+    th:hover {
+      background: #006666;
+    }
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    .export-btn {
+      background: linear-gradient(135deg, #28a745, #218838);
+    }
+    .export-btn:hover {
+      background: linear-gradient(135deg, #218838, #1c7430);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Visitor Logs</h1>
+    <div class="controls">
+      <label>Start Date: <input type="date" id="startDate"></label>
+      <label>End Date: <input type="date" id="endDate"></label>
+      <label>Search: <input type="text" id="searchInput" placeholder="Name, ID, or Company"></label>
+      <button class="export-btn" onclick="exportToCSV()"><i class="fas fa-download"></i> Export to CSV</button>
+    </div>
+    <table id="visitorTable">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)">ID</th>
+          <th onclick="sortTable(1)">Name</th>
+          <th onclick="sortTable(2)">Company</th>
+          <th onclick="sortTable(3)">Purpose</th>
+          <th onclick="sortTable(4)">Staff Member</th>
+          <th onclick="sortTable(5)">Site</th>
+          <th onclick="sortTable(6)">Sign-In Time</th>
+          <th onclick="sortTable(7)">Departure Time</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button class="back-btn" onclick="goBackToMain()"><i class="fas fa-arrow-left"></i> Back to Home</button>
+  </div>
+  <script>
+    let logs = [];
+    let sortDirection = 1;
+    let lastSortedColumn = -1;
+    const pathParts = window.location.pathname.split('/');
+    const sitePrefix = pathParts[1] === 'residential' ? 'residential' : 'main';
+
+    async function fetchVisitorLogs() {
+      try {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+
+        // Use a consistent endpoint; the backend now returns all visitors
+        let url = '/visitor-logs';
+        if (startDate || endDate) {
+          url += `?start=${startDate}&end=${endDate}`;
+        }
+
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(await response.text());
+        logs = await response.json();
+        console.log('Fetched logs:', logs); // Debug log to verify data
+
+        const filteredLogs = logs.filter(log =>
+          log.id.toLowerCase().includes(searchQuery) ||
+          log.name.toLowerCase().includes(searchQuery) ||
+          log.company.toLowerCase().includes(searchQuery)
+        );
+
+        renderTable(filteredLogs);
+      } catch (err) {
+        console.error('Error fetching logs:', err);
+        alert('Failed to load visitor logs: ' + err.message);
+      }
+    }
+
+    function renderTable(data) {
+      const tbody = document.querySelector('#visitorTable tbody');
+      tbody.innerHTML = '';
+      data.forEach(log => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${log.id}</td>
+          <td>${log.name}</td>
+          <td>${log.company}</td>
+          <td>${log.purpose}</td>
+          <td>${log.staff_member}</td>
+          <td>${log.site}</td>
+          <td>${new Date(log.sign_in_time).toLocaleString()}</td>
+          <td>${log.departure_time === 'Still Present' ? log.departure_time : new Date(log.departure_time).toLocaleString()}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function sortTable(columnIndex) {
+      if (lastSortedColumn === columnIndex) {
+        sortDirection *= -1;
+      } else {
+        sortDirection = 1;
+      }
+      lastSortedColumn = columnIndex;
+
+      const columns = ['id', 'name', 'company', 'purpose', 'staff_member', 'site', 'sign_in_time', 'departure_time'];
+      const key = columns[columnIndex];
+
+      logs.sort((a, b) => {
+        let valA = a[key];
+        let valB = b[key];
+        if (key === 'sign_in_time') {
+          valA = new Date(valA).getTime();
+          valB = new Date(valB).getTime();
+        } else if (key === 'departure_time') {
+          valA = valley === 'Still Present' ? Infinity : new Date(valA).getTime();
+          valB = valB === 'Still Present' ? Infinity : new Date(valB).getTime();
+        }
+        return valA > valB ? sortDirection : -sortDirection;
+      });
+
+      renderTable(logs);
+    }
+
+    function exportToCSV() {
+      const headers = ['ID,Name,Company,Purpose,Staff Member,Site,Sign-In Time,Departure Time'];
+      const rows = logs.map(log => [
+        log.id,
+        log.name,
+        log.company,
+        log.purpose,
+        log.staff_member,
+        log.site,
+        new Date(log.sign_in_time).toLocaleString(),
+        log.departure_time === 'Still Present' ? log.departure_time : new Date(log.departure_time).toLocaleString()
+      ].map(field => `"${field}"`).join(','));
+
+      const csvContent = [headers, ...rows].join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `visitor_logs_all.csv`; // Updated filename to reflect all sites
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+
+    function goBackToMain() {
+      window.location.href = `/${sitePrefix}`; // Still respects the original site context for navigation
+    }
+
+    document.getElementById('startDate').addEventListener('change', fetchVisitorLogs);
+    document.getElementById('endDate').addEventListener('change', fetchVisitorLogs);
+    document.getElementById('searchInput').addEventListener('input', fetchVisitorLogs);
+
+    window.onload = fetchVisitorLogs;
+  </script>
+</body>
+</html>

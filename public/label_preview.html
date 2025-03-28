@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="https://atwc.org.nz/wp-content/uploads/2021/04/favicon-100x100.png">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Label Preview</title>
+  <style>
+    #labelPreview {
+      border: 2px solid #008080;
+      padding: 20px;
+      width: 280px;
+      margin: 20px auto;
+      font-size: 1.2em;
+      line-height: 1.5;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Label Preview</h1>
+    <p>Here’s what your name tag will look like:</p>
+    <div id="labelPreview"></div>
+    <form id="printForm" action="/print-label" method="POST">
+      <input type="hidden" name="name" id="name">
+      <input type="hidden" name="company" id="company">
+      <input type="hidden" name="purpose" id="purpose">
+      <input type="hidden" name="staff_member" id="staff_member">
+      <input type="hidden" name="visitor_id" id="visitor_id">
+      <input type="hidden" name="site" id="site">
+      <button type="submit"><i class="fas fa-print"></i> Print Name Tag</button>
+    </form>
+    <button class="back-btn" onclick="goBackToHealthSafety()"><i class="fas fa-arrow-left"></i> Back</button>
+  </div>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name') || 'Unknown Name';
+    const company = urlParams.get('company') || 'Unknown Company';
+    const purpose = urlParams.get('purpose') || '';
+    const staff_member = urlParams.get('staff_member') || 'Unknown Staff';
+    const visitor_id = urlParams.get('visitor_id') || '';
+    const site = urlParams.get('site') || 'Main Reception';
+
+    document.getElementById('name').value = name;
+    document.getElementById('company').value = company;
+    document.getElementById('purpose').value = purpose;
+    document.getElementById('staff_member').value = staff_member;
+    document.getElementById('visitor_id').value = visitor_id;
+    document.getElementById('site').value = site;
+    document.getElementById('labelPreview').innerHTML = `${name}<br>${company}<br>Visiting: ${staff_member}`;
+
+    function goBackToHealthSafety() {
+      window.location.href = `/health-safety?name=${encodeURIComponent(name)}&company=${encodeURIComponent(company)}&purpose=${encodeURIComponent(purpose)}&staff_member=${encodeURIComponent(staff_member)}&visitor_id=${encodeURIComponent(visitor_id)}&site=${encodeURIComponent(site)}`;
+    }
+  </script>
+</body>
+</html>

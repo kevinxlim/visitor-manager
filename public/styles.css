@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f7fa;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+  -webkit-font-smoothing: antialiased; /* Smoother text rendering on iOS */
+  overflow-x: hidden; /* Prevent horizontal scroll on narrow screens */
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+h1 {
+  font-size: 2.2em;
+  font-weight: 700;
+  color: #008080;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1.1em;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 14px; /* Slightly larger padding for touch */
+  margin: 12px 0; /* More spacing for clarity */
+  font-size: 1.1em; /* Larger text for readability */
+  border-radius: 8px; /* Softer corners */
+  border: 1px solid #ddd;
+  transition: all 0.3s ease;
+  -webkit-appearance: none; /* Remove default iOS styling */
+}
+
+input:focus, select:focus, button:focus {
+  outline: none;
+  border-color: #008080;
+  box-shadow: 0 0 5px rgba(0, 128, 128, 0.5);
+}
+
+button {
+  background: linear-gradient(135deg, #008080, #006666);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-height: 48px; /* Minimum touch target size */
+}
+
+button:hover {
+  background: linear-gradient(135deg, #006666, #004d4d);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.back-btn {
+  background: linear-gradient(135deg, #666, #4d4d4d);
+}
+
+.back-btn:hover {
+  background: linear-gradient(135deg, #4d4d4d, #333);
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 180px;
+  max-width: 100%; /* Ensure logo scales down */
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* iPad-Specific Adjustments */
+@media (max-width: 1024px) {
+  .container {
+    padding: 20px;
+    margin: 0 10px; /* Add side margins for narrow screens */
+  }
+  h1 {
+    font-size: 1.8em;
+  }
+  input, select, button {
+    font-size: 1em;
+    padding: 12px;
+  }
+  p {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  .container {
+    padding: 15px;
+  }
+  h1 {
+    font-size: 1.6em;
+  }
+  input, select, button {
+    font-size: 0.95em;
+    padding: 10px;
+    margin: 8px 0;
+  }
+  .logo {
+    width: 150px;
+  }
+}
+
+/* Landscape orientation tweak */
+@media (max-height: 768px) and (orientation: landscape) {
+  .container {
+    padding: 15px;
+  }
+  h1 {
+    margin-bottom: 15px;
+  }
+  input, select, button {
+    padding: 10px;
+  }
+}
+
+/* Specific styles for tables (e.g., visitor logs) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background: #008080;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+@media (max-width: 768px) {
+  table {
+    font-size: 0.9em;
+  }
+  th, td {
+    padding: 8px;
+  }
+}
