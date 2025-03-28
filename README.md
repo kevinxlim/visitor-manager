@@ -14,6 +14,7 @@ A simple and efficient visitor management system that allows people to check in 
 
 ✅ Responsive Design – Works on desktop and mobile
 
+
 🛠 Tech Stack
 
 Frontend: HTML, CSS, JavaScript
@@ -21,6 +22,7 @@ Frontend: HTML, CSS, JavaScript
 Backend: Node.js
 
 Database: MongoDB
+
 
 📌 Installation
 
@@ -42,6 +44,7 @@ npm install
 ```bash
 npm start
 ```
+
 🎯 Usage
 
 Open the web app
@@ -51,6 +54,7 @@ Visitors enter their details and check in
 The system logs the time and keeps track
 
 Visitors check out when leaving
+
 
 🔒 License
 
